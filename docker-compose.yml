@@ -6,8 +6,33 @@ services:
       context: ./api-gateway
       dockerfile: Dockerfile
     container_name: api_gateway
-    tty: true
-    stdin_open: true
+    environment:
+      - CATALOG_SERVICE=catalog
     ports:
       - 80:80
-    
+  catalog:
+    container_name: catalog
+    build:
+      context: ./catalog
+      dockerfile: Dockerfile
+    environment:
+      - DB_URL=jdbc:mysql://catalog_db:3306/catalog
+    ports:
+      - 3030:3030
+    depends_on:
+      catalog_db:
+        condition: service_healthy
+  catalog_db:
+    container_name: catalog_db
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: catalog
+    ports:
+      - 3306:3306
+    volumes:
+      - ./catalog_db:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      interval: 1s
+      retries: 10
