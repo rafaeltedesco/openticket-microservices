@@ -1,0 +1,17 @@
+
+spring:
+  datasource:
+    url: ${DB_URL:jdbc:mysql://localhost:3306/catalog}
+    username: ${DB_USER:root}
+    password: ${DB_PASSWORD:root}
+    driver-class-name: ${DB_DRIVER:com.mysql.cj.jdbc.Driver}
+
+  jpa:
+    show-sql: true
+    generate-ddl: true
+    hibernate:
+      ddl-auto: create
+server:
+  port: 3030
+
+    
