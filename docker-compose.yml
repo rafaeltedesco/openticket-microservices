@@ -1,0 +1,13 @@
+version: "3"
+
+services:
+  api_gateway:
+    build:
+      context: ./api-gateway
+      dockerfile: Dockerfile
+    container_name: api_gateway
+    tty: true
+    stdin_open: true
+    ports:
+      - 80:80
+    

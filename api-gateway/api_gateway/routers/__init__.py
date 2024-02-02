@@ -1,0 +1,1 @@
+from api_gateway.routers.catalog import catalog_router

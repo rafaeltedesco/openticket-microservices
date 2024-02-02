@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "api-gateway"
+version = "0.1.0"
+description = ""
+authors = ["rafaeltedesco <dev.rafaeltedesco@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = {extras = ["all"], version = "^0.109.0"}
+pytest = "^8.0.0"
+httpx = {extras = ["all"], version = "^0.26.0"}
+trio = "^0.24.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
