@@ -1,1 +1,1 @@
-mock_fetch_catalog = [{"id": 1, "name": "show 1"}, {"id": 2, "name": "show 2"}]
+mock_fetch_catalog = [{"id": 1, "name": "Show da Xuxa", "eventDateTime": "2024-05-22T00:00:00"}]
