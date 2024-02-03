@@ -1,66 +1,6 @@
 version: "3.8"
 
 services:
-  main:
-    container_name: main
-    build:
-      context: ./main/.
-    env_file:
-      - ./main/.env
-    tty: true
-    stdin_open: true
-    ports:
-      - 3001:3001
-    working_dir: /app
-    volumes:
-      - ./main/src:/app/src
-    depends_on:
-      - database
-      - redis
-
-  api_gateway:
-    container_name: api_gateway
-    build:
-      context: ./api_gateway
-      dockerfile: Dockerfile
-    ports:
-      - 3333:3333
-    environment:
-      - KAFKA_HOST=kafka:29092
-      - CORE_HOST=main:3001
-    tty: true
-    stdin_open: true
-    volumes:
-      - ./api_gateway/:/app
-    depends_on:
-      - kafka
-
-  orders_pubsub:
-    container_name: orders_pubsub
-    build:
-      context: ./orders_pubsub
-      dockerfile: Dockerfile
-    environment:
-      - KAFKA_HOST=kafka:29092
-      - DB_HOST=database
-    tty: true
-    stdin_open: true
-    volumes:
-      - ./orders_pubsub/:/app
-    depends_on:
-      - kafka
-
-  database:
-    image: postgres:12.2-alpine
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: database
-    ports:
-      - 5432:5432
-    volumes:
-      - ./database_volume:/var/lib/postgresql/data
-
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
     environment:
@@ -109,13 +49,7 @@ services:
       CONTROL_CENTER_MONITORING_INTERCEPTOR_TOPIC_PARTITIONS: 1
       CONFLUENT_METRICS_TOPIC_REPLICATION: 1
       PORT: 9021
-    
-  redis:
-    container_name: redis
-    image: redis:alpine
-    ports:
-      - 6379:6379
-    
+ 
 
 volumes:
   zookeeper-data:
