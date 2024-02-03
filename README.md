@@ -11,7 +11,7 @@ The application utilizes different programming languages for each microservice:
 - **Python with FastAPI:** [api-gateway](./api-gateway/)
 - **Java with Spring Boot:** [catalog](./catalog/)
 - **Golang:** *in progress*
-- **JavaScript with Nest.js:** *in progress*
+- **Typescript with Nest.js:** *in progress*
 - **JavaScript with Express:** *in progress*
 
 ## How to Use
