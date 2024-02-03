@@ -2,6 +2,8 @@ package com.trybeticket.catalog.entities;
 
 import java.time.LocalDateTime;
 
+import com.trybeticket.catalog.dtos.CatalogRequestDto;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -24,6 +26,10 @@ public class CatalogEvent {
   @Id
   @GeneratedValue(strategy=GenerationType.IDENTITY)
   private Long id;
+
+  public static CatalogEvent fromDto(CatalogRequestDto dto) {
+    return new CatalogEvent(null, dto.name(), dto.eventDateTime());
+  }
   
   @Size(min=3, message="CatalogEvent must have at least {min} characters")
   @Column(nullable = false)
@@ -31,5 +37,9 @@ public class CatalogEvent {
 
   @Column(nullable=false)
   private LocalDateTime eventDateTime;
+
+  public boolean isValidateDate() {
+    return this.eventDateTime.isAfter(LocalDateTime.now());
+  }
 
 }
