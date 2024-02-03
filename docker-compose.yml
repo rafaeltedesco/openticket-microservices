@@ -1,4 +1,4 @@
-version: "3"
+version: "3.8"
 
 services:
   api_gateway:
@@ -7,9 +7,11 @@ services:
       dockerfile: Dockerfile
     container_name: api_gateway
     environment:
-      - CATALOG_SERVICE=catalog
+      - CATALOG_SERVICE_URL=http://catalog:3030
     ports:
       - 80:80
+    depends_on:
+      - catalog
   catalog:
     container_name: catalog
     build:
@@ -17,10 +19,15 @@ services:
       dockerfile: Dockerfile
     environment:
       - DB_URL=jdbc:mysql://catalog_db:3306/catalog
+      - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
+    volumes:
+      - ./catalog/src:/app/src
     ports:
       - 3030:3030
     depends_on:
       catalog_db:
+        condition: service_healthy
+      kafka:
         condition: service_healthy
   catalog_db:
     container_name: catalog_db
@@ -32,7 +39,76 @@ services:
       - 3306:3306
     volumes:
       - ./catalog_db:/var/lib/mysql
+      - ./catalog/init.sql:/docker-entrypoint-initdb.d/init.sql
     healthcheck:
       test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
-      interval: 1s
+      interval: 2s
       retries: 10
+      timeout: 10s
+  zookeeper:
+    container_name: zookeeper
+    image: confluentinc/cp-zookeeper:latest
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - "2181:2181"
+    volumes:
+      - zookeeper-data:/var/lib/zookeeper/data
+      - zookeeper-log:/var/lib/zookeeper/log
+    healthcheck:
+      test: ["CMD", "zookeeper-shell", "zookeeper", "ls", "/"]
+      interval: 2s
+      retries: 10
+      timeout: 10s
+  kafka:
+    container_name: kafka
+    image: confluentinc/cp-kafka:latest
+    depends_on:
+      zookeeper:
+        condition: service_healthy
+    environment:
+      TZ: Sao_Paulo/Brazil
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 100
+      CONFLUENT_METRICS_ENABLE: "false"
+    ports:
+      - "9092:9092"
+    volumes:
+      - kafka-data:/var/lib/kafka/data
+    healthcheck:
+      test: ["CMD", "kafka-topics", "--list", "--bootstrap-server", "localhost:9092"]
+      interval: 2s
+      retries: 10
+      timeout: 10s
+
+
+  control-center:
+    container_name: control-center
+    image: confluentinc/cp-enterprise-control-center:7.3.0
+    hostname: control-center
+    depends_on:
+      - kafka
+    ports:
+      - "9021:9021"
+    environment:
+      CONTROL_CENTER_BOOTSTRAP_SERVERS: "kafka:29092"
+      CONTROL_CENTER_REPLICATION_FACTOR: 1
+      CONTROL_CENTER_INTERNAL_TOPICS_PARTITIONS: 1
+      CONTROL_CENTER_MONITORING_INTERCEPTOR_TOPIC_PARTITIONS: 1
+      CONFLUENT_METRICS_TOPIC_REPLICATION: 1
+      PORT: 9021
+ 
+
+volumes:
+  zookeeper-data:
+  zookeeper-log:
+  kafka-data:

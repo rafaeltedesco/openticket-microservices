@@ -1,0 +1,5 @@
+### HealthCheck
+GET http://localhost
+
+### Show Events Catalog
+GET http://localhost/catalog

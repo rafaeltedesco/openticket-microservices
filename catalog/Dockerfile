@@ -2,9 +2,10 @@ FROM eclipse-temurin:17-jdk-focal
  
 WORKDIR /app
  
-COPY . .
+COPY .mvn/ .mvn
+COPY mvnw pom.xml ./
 RUN ./mvnw dependency:go-offline
  
-EXPOSE 3030
+COPY src ./src
  
 CMD ["./mvnw", "spring-boot:run"]

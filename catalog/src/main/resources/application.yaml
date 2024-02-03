@@ -11,7 +11,9 @@ spring:
     generate-ddl: true
     hibernate:
       ddl-auto: update
+  
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+
 server:
   port: 3030
-
-    
