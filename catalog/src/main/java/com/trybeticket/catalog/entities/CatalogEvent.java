@@ -31,7 +31,7 @@ public class CatalogEvent {
   private Long id;
 
   public static CatalogEvent fromDto(CatalogRequestDto dto) {
-    return new CatalogEvent(null, dto.name(), dto.eventDateTime());
+    return new CatalogEvent(null, dto.name(), dto.eventDateTime(), dto.ticketsAvailable());
   }
   
   @Size(min=3, message="CatalogEvent must have at least {min} characters")
@@ -40,6 +40,9 @@ public class CatalogEvent {
 
   @Column(nullable=false)
   private LocalDateTime eventDateTime;
+
+  @Column(nullable=false)
+  private Integer ticketsAvailable;
 
   @JsonIgnore  
   public boolean isValidateDate() {

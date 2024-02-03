@@ -7,5 +7,6 @@ Content-Type: application/json
 
 {
  "name": "Tears for Fears",
- "eventDateTime": "2024-10-20T10:30:00" 
+ "eventDateTime": "2024-10-20T10:30:00",
+ "ticketsAvailable": 100
 }
