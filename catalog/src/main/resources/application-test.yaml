@@ -11,6 +11,9 @@ spring:
     generate-ddl: true
     hibernate:
       ddl-auto: create
+  
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
 server:
   port: 3333
 
