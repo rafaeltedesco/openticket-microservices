@@ -10,14 +10,17 @@ import com.trybeticket.catalog.dtos.CatalogResponseDto;
 import com.trybeticket.catalog.entities.CatalogEvent;
 import com.trybeticket.catalog.entities.exceptions.InvalidDateException;
 import com.trybeticket.catalog.repositories.CatalogRepository;
+import com.trybeticket.catalog.utils.mappers.ObjectSerializer;
 
 @Service
 public class CatalogService {
 
   private CatalogRepository catalogRepository;
+  private KafkaProducerService kafkaProducerService;
 
-  public CatalogService(CatalogRepository catalogRepository) {
+  public CatalogService(CatalogRepository catalogRepository, KafkaProducerService kafkaProducerService) {
     this.catalogRepository = catalogRepository;
+    this.kafkaProducerService = kafkaProducerService;
   }
 
   public List<CatalogResponseDto> getAvailableCatalogEvents(LocalDateTime when) {
@@ -30,6 +33,10 @@ public class CatalogService {
     if (event.isValidateDate() == false) {
       throw new InvalidDateException("Event date must be in the future");
     }
-    return CatalogResponseDto.fromEntity(catalogRepository.save(event));
+    CatalogEvent newEvent = catalogRepository.save(event);
+
+    kafkaProducerService.sendEventAddedMessage(ObjectSerializer.toString(newEvent));
+
+    return CatalogResponseDto.fromEntity(newEvent);
   }
 }
