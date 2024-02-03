@@ -1,7 +1,7 @@
 
 spring:
   datasource:
-    url: ${DB_URL:jdbc:mysql://localhost:3306/test_catalog}
+    url: ${DB_URL:jdbc:mysql://localhost:3306/catalog_test}
     username: ${DB_USER:root}
     password: ${DB_PASSWORD:root}
     driver-class-name: ${DB_DRIVER:com.mysql.cj.jdbc.Driver}
