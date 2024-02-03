@@ -2,6 +2,7 @@ package com.trybeticket.catalog.entities;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.trybeticket.catalog.dtos.CatalogRequestDto;
 
 import jakarta.persistence.Column;
@@ -15,11 +16,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name="catalog_events")
 @Getter
 @Setter
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 public class CatalogEvent {
@@ -38,6 +41,7 @@ public class CatalogEvent {
   @Column(nullable=false)
   private LocalDateTime eventDateTime;
 
+  @JsonIgnore  
   public boolean isValidateDate() {
     return this.eventDateTime.isAfter(LocalDateTime.now());
   }
