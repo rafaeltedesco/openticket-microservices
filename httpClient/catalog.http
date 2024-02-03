@@ -1,0 +1,11 @@
+### Show Available Events
+GET http://localhost:3030/catalog
+
+### Create a new event
+POST http://localhost:3030/catalog
+Content-Type: application/json
+
+{
+ "name": "Tears for Fears",
+ "eventDateTime": "2024-10-33T10:30:00" 
+}
