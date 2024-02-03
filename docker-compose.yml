@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile
     container_name: api_gateway
     environment:
-      - CATALOG_SERVICE=catalog
+      - CATALOG_SERVICE_URL=http://catalog:3030
     ports:
       - 80:80
   catalog:
