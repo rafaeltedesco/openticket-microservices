@@ -28,8 +28,8 @@ public class CatalogServiceTest {
 
   @BeforeAll
   static void setup(@Autowired CatalogRepository catalogRepository) {
-    catalogRepository.save(new CatalogEvent(1l, "show 1", LocalDateTime.of(2024, 02, 02, 10, 20, 00), 50));
-    catalogRepository.save(new CatalogEvent(2l, "show 2", LocalDateTime.of(2024, 03, 22, 13, 20, 00), 25));
+    catalogRepository.save(new CatalogEvent(1l, "show 1", LocalDateTime.of(2024, 02, 02, 10, 20, 00)));
+    catalogRepository.save(new CatalogEvent(2l, "show 2", LocalDateTime.of(2024, 03, 22, 13, 20, 00)));
   }
 
   @AfterAll
@@ -41,8 +41,8 @@ public class CatalogServiceTest {
   @Description("Should return a list of all available events")
   void getAvailableCatalogEventsWhereWhenIsBeforeAllEvents() {
     List<CatalogResponseDto> expectedEvents = List.of(
-      new CatalogEvent(1l, "show 1", LocalDateTime.of(2024, 02, 02, 10, 20, 00), 50),
-      new CatalogEvent(2l, "show 2", LocalDateTime.of(2024, 03, 22, 13, 20, 00), 25)
+      new CatalogEvent(1l, "show 1", LocalDateTime.of(2024, 02, 02, 10, 20, 00)),
+      new CatalogEvent(2l, "show 2", LocalDateTime.of(2024, 03, 22, 13, 20, 00))
     ).stream().map(CatalogResponseDto::fromEntity).toList();
     List<CatalogResponseDto> availableEvents = catalogService.getAvailableCatalogEvents(LocalDateTime.of(2024, 01, 02, 8, 00, 00));
     assert availableEvents.size() == 2;
@@ -53,7 +53,7 @@ public class CatalogServiceTest {
   @Description("Should return a list of available events that are after the given date")
   void getAvailableCatalogEventsWhereWhenIsBeforeOnlyOneEvent() {
     List<CatalogResponseDto> expectedEvents = List.of(
-      new CatalogEvent(2l, "show 2", LocalDateTime.of(2024, 03, 22, 13, 20, 00), 25)
+      new CatalogEvent(2l, "show 2", LocalDateTime.of(2024, 03, 22, 13, 20, 00))
     ).stream().map(CatalogResponseDto::fromEntity).toList();
     List<CatalogResponseDto> availableEvents = catalogService.getAvailableCatalogEvents(LocalDateTime.of(2024, 02, 02, 10, 20, 00));
     assert availableEvents.size() == 1;
