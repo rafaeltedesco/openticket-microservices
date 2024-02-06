@@ -1,4 +1,4 @@
-# Microservices Demonstration Application
+# OpenTicket - Microservices Demonstration Application
 
 ### 🚧🚧🚧🚧🚧 Under Construction 🚧🚧🚧🚧🚧 
 
