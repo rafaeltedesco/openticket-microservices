@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 
-class CatalogEventCreationDto(BaseModel):
+class InventoryEventCreationDto(BaseModel):
   name: str
   eventDateTime: str
   ticketsAvailable: int

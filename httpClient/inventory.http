@@ -1,0 +1,9 @@
+### Create a new event
+POST http://localhost:3005/inventory
+Content-Type: application/json
+
+{
+ "name": "Simple Red - new show",
+ "eventDateTime": "2024-10-20T10:30:00",
+ "ticketsAvailable": 500
+}

@@ -8,6 +8,7 @@ services:
     container_name: api_gateway
     environment:
       - CATALOG_SERVICE_URL=http://catalog:3030
+      - INVENTORY_SERVICE_URL=http://inventory:3005
     ports:
       - 80:80
     depends_on:
@@ -45,6 +46,41 @@ services:
       interval: 2s
       retries: 10
       timeout: 10s
+  inventory_db:
+    container_name: inventory_db
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: inventory_development
+    ports:
+      - 5432:5432
+    volumes:
+      - ./inventory_db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres", "-t 5"]
+      interval: 3s
+      retries: 10
+      timeout: 15s
+  inventory:
+    container_name: inventory
+    build:
+      context: ./inventory
+      dockerfile: Dockerfile
+    ports:
+      - 3005:3005
+    environment:
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - DB_HOST=inventory_db
+      - DB_DIALECT=postgres
+      - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
+      - KAFKA_TOPIC=new-event-added
+    depends_on:
+      inventory_db:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
   zookeeper:
     container_name: zookeeper
     image: confluentinc/cp-zookeeper:latest
@@ -89,8 +125,6 @@ services:
       interval: 2s
       retries: 10
       timeout: 10s
-
-
   control-center:
     container_name: control-center
     image: confluentinc/cp-enterprise-control-center:7.3.0
@@ -106,7 +140,7 @@ services:
       CONTROL_CENTER_MONITORING_INTERCEPTOR_TOPIC_PARTITIONS: 1
       CONFLUENT_METRICS_TOPIC_REPLICATION: 1
       PORT: 9021
- 
+
 
 volumes:
   zookeeper-data:

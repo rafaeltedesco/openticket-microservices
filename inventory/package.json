@@ -1,0 +1,37 @@
+{
+  "name": "inventory",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/server.js",
+  "scripts": {
+    "prestart": "npx sequelize db:migrate",
+    "start": "node .",
+    "start:dev": "nodemon .",
+    "lint": "eslint .",
+    "db:restart":  "npx sequelize db:drop && npx sequelize db:create && npx sequelize db:migrate",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "node-rdkafka": "^2.18.0",
+    "pg": "^8.11.3",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.36.0"
+  },
+  "devDependencies": {
+    "chai": "^4.4.1",
+    "chai-http": "^4.4.0",
+    "eslint": "^8.56.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-trybe-backend": "^2.1.0",
+    "eslint-plugin-import": "^2.29.1",
+    "mocha": "^10.2.0",
+    "nodemon": "^3.0.3",
+    "sequelize-cli": "^6.6.2",
+    "sinon": "^17.0.1",
+    "sinon-chai": "^3.7.0"
+  }
+}

@@ -1,1 +1,2 @@
 from api_gateway.routers.catalog import catalog_router
+from api_gateway.routers.inventory import inventory_router

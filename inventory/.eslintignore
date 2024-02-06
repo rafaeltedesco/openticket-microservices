@@ -1,0 +1,4 @@
+node_modules/
+src/db/models/index.js
+src/db/migrations/
+src/db/seeders/
