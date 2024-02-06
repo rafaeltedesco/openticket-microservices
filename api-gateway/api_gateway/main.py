@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from api_gateway.routers import catalog_router
+from api_gateway.routers import catalog_router, inventory_router
 
 app = FastAPI()
 
@@ -10,4 +10,9 @@ async def health():
 app.include_router(
   catalog_router, 
   prefix="/catalog"
+)
+
+app.include_router(
+  inventory_router, 
+  prefix="/inventory"
 )
