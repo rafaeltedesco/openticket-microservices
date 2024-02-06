@@ -1,8 +1,8 @@
 # Microservices Demonstration Application
 
-##### 🚧🚧🚧🚧🚧 Under Construction 🚧🚧🚧🚧🚧 
+### 🚧🚧🚧🚧🚧 Under Construction 🚧🚧🚧🚧🚧 
 
-This application has been developed to showcase the operation and implementation of microservices, intended for my classes at Trybe.
+This application has been developed to showcase the operation and implementation of microservices.
 
 ## Microservices and Technologies Used
 
