@@ -7,3 +7,14 @@ Content-Type: application/json
  "eventDateTime": "2024-10-20T10:30:00",
  "ticketsAvailable": 500
 }
+
+
+### Error: Create a new event before or equal to the current date
+POST http://localhost:3005/inventory
+Content-Type: application/json
+
+{
+ "name": "Tears for Fears",
+ "eventDateTime": "2024-02-02T10:30:00",
+ "ticketsAvailable": 250
+}
