@@ -4,6 +4,8 @@ const inventoryController = require('../controllers/inventory.controller');
 
 const inventoryRouter = Router();
 
-inventoryRouter.post('/', inventoryController.createEvent);
+inventoryRouter
+  .post('/', inventoryController.createEvent)
+  .get('/', inventoryController.showRegisteredEvents);
 
 module.exports = inventoryRouter;

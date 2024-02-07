@@ -27,8 +27,9 @@ public class KafkaConsumerService {
     ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
     try {
       CatalogEvent catalogEvent = objectMapper.readValue(record.value(), CatalogEvent.class);
-      if (!catalogEvent.isValidateDate()) {
-        System.out.println("CatalogEvent date is not valid");
+      if (catalogEvent == null) {
+        System.out.println("Error converting message to CatalogEvent");
+        // produce message to dead-letter queue
         return;
       }
       catalogRepository.save(catalogEvent);
@@ -36,6 +37,7 @@ public class KafkaConsumerService {
     } catch (JsonProcessingException e) {
       System.out.println(e.getMessage());
       System.out.println("Error converting message to CatalogEvent");
+      // produce message to dead-letter queue
     }
   }
 }

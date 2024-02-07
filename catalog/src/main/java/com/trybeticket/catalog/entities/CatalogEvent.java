@@ -2,11 +2,8 @@ package com.trybeticket.catalog.entities;
 
 import java.time.LocalDateTime;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Size;
@@ -25,7 +22,6 @@ import lombok.ToString;
 @NoArgsConstructor
 public class CatalogEvent {
   @Id
-  @GeneratedValue(strategy=GenerationType.IDENTITY)
   private Long id;
 
   @Size(min=3, message="CatalogEvent must have at least {min} characters")
@@ -34,10 +30,4 @@ public class CatalogEvent {
 
   @Column(nullable=false)
   private LocalDateTime eventDateTime;
-
-  @JsonIgnore  
-  public boolean isValidateDate() {
-    return this.eventDateTime.isAfter(LocalDateTime.now());
-  }
-
 }
