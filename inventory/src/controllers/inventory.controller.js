@@ -7,6 +7,12 @@ const createEvent = async (req, res) => {
   res.status(mapHttpStatus(response.status)).json(response.data);
 };
 
+const showRegisteredEvents = async (req, res) => {
+  const response = await InventoryService.showRegisteredEvents();
+  res.status(mapHttpStatus(response.status)).json(response.data);
+};
+
 module.exports = {
   createEvent,
+  showRegisteredEvents,
 };
