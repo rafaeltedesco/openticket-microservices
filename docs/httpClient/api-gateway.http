@@ -13,3 +13,6 @@ Content-Type: application/json
  "eventDateTime": "2024-10-20T10:30:00",
  "ticketsAvailable": 100
 }
+
+### Show Events Inventory
+GET http://localhost/inventory
