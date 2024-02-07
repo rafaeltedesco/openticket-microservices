@@ -11,3 +11,11 @@ def add_event(event: InventoryEventCreationDto):
   except httpx.RequestError as e:
     print("Request error", e)
     return {"error": "Inventory Service is not available"}
+  
+def show_events():
+  try:
+    response = httpx.get(f'{INVENTORY_SERVICE_URL}/inventory')
+    return response.json()
+  except httpx.RequestError as e:
+    print("Request error", e)
+    return {"error": "Inventory Service is not available"}

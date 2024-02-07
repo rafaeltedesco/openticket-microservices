@@ -11,3 +11,10 @@ async def add_item(event: InventoryEventCreationDto, response: Response):
   if "error" in result:
     response.status_code = status.HTTP_503_SERVICE_UNAVAILABLE
   return result
+
+@inventory_router.get("/", status_code=200)
+async def show_items(response: Response):
+  result = inventory_service.show_events()
+  if "error" in result:
+    response.status_code = status.HTTP_503_SERVICE_UNAVAILABLE
+  return result
