@@ -1,3 +1,5 @@
 catalog_db
 .vscode
 inventory_db
+.env.catalog
+.env.inventory
