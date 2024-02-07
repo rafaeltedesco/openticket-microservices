@@ -1,6 +1,5 @@
 const { Inventory } = require('../db/models');
 const domainResponse = require('../utils/domainResponses');
-const kafkaProducer = require('./kafkaProducer.service');
 
 /**
  *
@@ -36,16 +35,11 @@ const createEvent = async (inventoryCreationDto) => {
     return { status: domainResponse.CONFLICT, data: { error: 'Event already exists' } };
   }
   
-  const newEvent = await Inventory.create(inventoryCreationDto);
-  kafkaProducer.produceMessage(
-    process.env.KAFKA_TOPIC || 'new-event-added',
-    JSON.stringify({
-      id: newEvent.id,
-      name: newEvent.name,
-      eventDateTime: newEvent.eventDateTime,
-    }),
-  );
-  return { status: domainResponse.CREATED, data: newEvent };
+  // registrar no banco de dados o novo evento
+
+  // produzir evento para o tópico new-event-added
+  
+  return { status: domainResponse.CREATED, data: {} };
 };
 
 const showRegisteredEvents = async () => {
