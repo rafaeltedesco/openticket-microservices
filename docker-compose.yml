@@ -67,6 +67,7 @@ services:
     build:
       context: ./inventory
       dockerfile: Dockerfile
+    command: npm run start:dev
     ports:
       - 3005:3005
     environment:
@@ -77,6 +78,8 @@ services:
       - DB_DIALECT=postgres
       - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
       - KAFKA_TOPIC=new-event-added
+    volumes:
+      - ./inventory/src:/app/src
     depends_on:
       inventory_db:
         condition: service_healthy
