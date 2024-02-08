@@ -73,6 +73,7 @@ services:
       - DB_USER=postgres
       - DB_PASSWORD=postgres
       - DB_HOST=inventory_db
+      - DB_NAME=inventory_development
       - DB_DIALECT=postgres
       - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
       - KAFKA_TOPIC=new-event-added
