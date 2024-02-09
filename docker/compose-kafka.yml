@@ -1,44 +1,6 @@
 version: "3.8"
 
 services:
-  api_gateway:
-    build:
-      context: ./api-gateway
-      dockerfile: Dockerfile
-    container_name: api_gateway
-    environment:
-      - CATALOG_SERVICE_URL=http://catalog:3030
-      - INVENTORY_SERVICE_URL=http://inventory:3005
-    ports:
-      - 80:80
-    depends_on:
-      - catalog
-  catalog:
-    container_name: catalog
-    build:
-      context: ./catalog
-      dockerfile: Dockerfile
-    env_file:
-      - ./envs/.env.catalog
-    volumes:
-      - ./catalog/src:/app/src
-    ports:
-      - 3030:3030
-    depends_on:
-      kafka:
-        condition: service_healthy
-  inventory:
-    container_name: inventory
-    build:
-      context: ./inventory
-      dockerfile: Dockerfile
-    ports:
-      - 3005:3005
-    env_file:
-      - ./envs/.env.inventory
-    depends_on:
-      kafka:
-        condition: service_healthy
   zookeeper:
     container_name: zookeeper
     image: confluentinc/cp-zookeeper:latest
@@ -83,22 +45,6 @@ services:
       interval: 2s
       retries: 10
       timeout: 10s
-  control-center:
-    container_name: control-center
-    image: confluentinc/cp-enterprise-control-center:7.3.0
-    hostname: control-center
-    depends_on:
-      - kafka
-    ports:
-      - "9021:9021"
-    environment:
-      CONTROL_CENTER_BOOTSTRAP_SERVERS: "kafka:29092"
-      CONTROL_CENTER_REPLICATION_FACTOR: 1
-      CONTROL_CENTER_INTERNAL_TOPICS_PARTITIONS: 1
-      CONTROL_CENTER_MONITORING_INTERCEPTOR_TOPIC_PARTITIONS: 1
-      CONFLUENT_METRICS_TOPIC_REPLICATION: 1
-      PORT: 9021
-
 
 volumes:
   zookeeper-data:
