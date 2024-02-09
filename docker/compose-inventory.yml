@@ -1,0 +1,38 @@
+version: "3.8"
+
+services:
+  inventory_db:
+    container_name: inventory_db
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: inventory_development
+    ports:
+      - 5432:5432
+    volumes:
+      - ../inventory_db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres", "-t 5"]
+      interval: 3s
+      retries: 10
+      timeout: 15s
+  inventory:
+    container_name: inventory
+    build:
+      context: ../inventory
+      dockerfile: Dockerfile
+    command: npm run start:dev
+    ports:
+      - 3005:3005
+    environment:
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - DB_HOST=inventory_db
+      - DB_NAME=inventory_development
+      - DB_DIALECT=postgres
+      - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
+      - KAFKA_TOPIC=new-event-added
+    volumes:
+      - ../inventory/src:/app/src
+    

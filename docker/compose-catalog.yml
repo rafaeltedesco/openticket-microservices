@@ -1,0 +1,31 @@
+version: "3.8"
+
+services:
+  catalog:
+    container_name: catalog
+    build:
+      context: ../catalog
+      dockerfile: Dockerfile
+    environment:
+      - DB_URL=jdbc:mysql://catalog_db:3306/catalog
+      - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
+    volumes:
+      - ../catalog/src:/app/src
+    ports:
+      - 3030:3030
+  catalog_db:
+    container_name: catalog_db
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: catalog
+    ports:
+      - 3306:3306
+    volumes:
+      - ../catalog_db:/var/lib/mysql
+      - ../catalog/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      interval: 2s
+      retries: 10
+      timeout: 10s
