@@ -1,0 +1,14 @@
+version: "3.8"
+
+services:
+  users_db:
+    image: postgres
+    container_name: users_db
+    ports:
+      - 5432:5432
+    volumes:
+      - ../users_db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: users_db

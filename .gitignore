@@ -1,5 +1,11 @@
+# databases volumes
 catalog_db
-.vscode
 inventory_db
+users_db
+
+# development configs
+.vscode
+
+# envs
 .env.catalog
 .env.inventory
