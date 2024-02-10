@@ -2,9 +2,9 @@ package controllers
 
 import (
 	"net/http"
-	"openticket/src/internal/helpers"
-	"openticket/src/internal/models"
-	"openticket/src/internal/usecases"
+	"openticket/internal/helpers"
+	"openticket/internal/models"
+	"openticket/internal/usecases"
 )
 
 type UserController struct {

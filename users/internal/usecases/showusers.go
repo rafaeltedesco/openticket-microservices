@@ -1,7 +1,7 @@
 package usecases
 
 import (
-	"openticket/src/internal/models"
+	"openticket/internal/models"
 )
 
 type ShowUsersUseCase struct {

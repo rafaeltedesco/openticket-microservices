@@ -3,8 +3,8 @@ package models
 import (
 	"database/sql"
 	"errors"
-	db "openticket/src/internal/config"
-	"openticket/src/internal/dtos"
+	db "openticket/internal/config"
+	"openticket/internal/dtos"
 )
 
 type UserModel struct {

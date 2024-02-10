@@ -2,9 +2,9 @@ package main
 
 import (
 	"net/http"
-	db "openticket/src/internal/config"
-	"openticket/src/internal/controllers"
-	"openticket/src/internal/models"
+	db "openticket/internal/config"
+	"openticket/internal/controllers"
+	"openticket/internal/models"
 
 	_ "github.com/lib/pq"
 )
