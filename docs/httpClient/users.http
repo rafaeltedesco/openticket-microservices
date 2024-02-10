@@ -1,0 +1,5 @@
+### Get users with Pagination: Default is 1 and 10
+GET http://localhost:8080/users?page=1&pageSize=5
+
+### Get User By Id
+GET http://localhost:8080/user/1231243423
