@@ -1,0 +1,31 @@
+{
+  "name": "orders",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "db:reset": "npx tsc && npx sequelize-cli db:drop && npx sequelize-cli db:create && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all",
+    "build": "tsc --project tsconfig.json",
+    "prestart": "npm run build && npm run db:reset",
+    "start": "node ./build/server.js",
+    "predev": "npm run db:reset",
+    "dev": "tsnd --watch \"./src/**\" --transpile-only ./src/server.ts",
+    "dev2": "tsnd --watch \"./src/**\" --transpile-only ./src/server.ts",
+    "lint": "eslint ./src --ext .ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.11.17",
+    "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "express-async-errors": "^3.1.1"
+  }
+}
